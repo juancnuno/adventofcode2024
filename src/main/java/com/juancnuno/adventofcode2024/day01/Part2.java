@@ -31,6 +31,6 @@ public final class Part2 {
     }
 
     public static void main(String[] args) {
-        System.out.println(Part2.getSimilarityScore(new PathInput()));
+        System.out.println(Part2.getSimilarityScore(PathInput.INSTANCE));
     }
 }

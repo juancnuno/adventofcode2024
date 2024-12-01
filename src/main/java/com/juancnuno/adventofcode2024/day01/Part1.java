@@ -35,6 +35,6 @@ public final class Part1 {
     }
 
     public static void main(String[] args) {
-        System.out.println(Part1.getTotalDistance(new PathInput()));
+        System.out.println(Part1.getTotalDistance(PathInput.INSTANCE));
     }
 }
