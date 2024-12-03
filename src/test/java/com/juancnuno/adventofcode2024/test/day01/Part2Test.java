@@ -1,15 +1,15 @@
-package com.juancnuno.adventofcode2024.day01.test;
+package com.juancnuno.adventofcode2024.test.day01;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-import com.juancnuno.adventofcode2024.day01.Part1;
-import com.juancnuno.adventofcode2024.day01.StringInput;
+import com.juancnuno.adventofcode2024.day01.Part2;
+import com.juancnuno.adventofcode2024.test.StringInput;
 
-final class Part1Test {
+final class Part2Test {
 
     @Test
-    void getTotalDistance() {
+    void getSimilarityScore() {
         // Arrange
         var input = new StringInput("""
             3   4
@@ -21,9 +21,9 @@ final class Part1Test {
             """);
 
         // Act
-        var distance = Part1.getTotalDistance(input);
+        var score = Part2.getSimilarityScore(input);
 
         // Assert
-        assertEquals(11, distance);
+        assertEquals(31, score);
     }
 }

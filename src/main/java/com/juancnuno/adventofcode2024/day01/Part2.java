@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import com.juancnuno.adventofcode2024.Input;
+import com.juancnuno.adventofcode2024.PathInput;
+
 public final class Part2 {
 
     private Part2() {
@@ -31,6 +34,6 @@ public final class Part2 {
     }
 
     public static void main(String[] args) {
-        System.out.println(Part2.getSimilarityScore(PathInput.INSTANCE));
+        System.out.println(getSimilarityScore(PathInput.INSTANCE));
     }
 }

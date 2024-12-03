@@ -1,6 +1,8 @@
-package com.juancnuno.adventofcode2024.day01;
+package com.juancnuno.adventofcode2024.test;
 
 import java.util.stream.Stream;
+
+import com.juancnuno.adventofcode2024.Input;
 
 public final class StringInput extends Input {
 
@@ -11,7 +13,7 @@ public final class StringInput extends Input {
     }
 
     @Override
-    Stream<String> lines() {
+    public Stream<String> lines() {
         return input.lines();
     }
 }

@@ -3,6 +3,9 @@ package com.juancnuno.adventofcode2024.day01;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import com.juancnuno.adventofcode2024.Input;
+import com.juancnuno.adventofcode2024.PathInput;
+
 public final class Part1 {
 
     private Part1() {
@@ -35,6 +38,6 @@ public final class Part1 {
     }
 
     public static void main(String[] args) {
-        System.out.println(Part1.getTotalDistance(PathInput.INSTANCE));
+        System.out.println(getTotalDistance(PathInput.INSTANCE));
     }
 }
