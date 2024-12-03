@@ -43,40 +43,23 @@ public final class Report {
         if (firstLevel.equals(secondLevel)) {
             return false;
         } else if (firstLevel < secondLevel) {
-            return isSafeIncreasing();
+            return IntStream.range(1, levels.size()).allMatch(this::areLevelsIncreasingGradually);
         } else {
-            return isSafeDecreasing();
+            return IntStream.range(1, levels.size()).allMatch(this::areLevelsDecreasingGradually);
         }
     }
 
-    private boolean isSafeIncreasing() {
-        for (int i = 1, size = levels.size(); i < size; i++) {
-            var previousLevel = levels.get(i - 1);
-            var level = levels.get(i);
+    private boolean areLevelsIncreasingGradually(int index) {
+        var previousLevel = levels.get(index - 1);
+        var level = levels.get(index);
 
-            if (previousLevel >= level || !isDifferenceSafe(previousLevel, level)) {
-                return false;
-            }
-        }
-
-        return true;
+        return previousLevel < level && level - previousLevel <= 3;
     }
 
-    private boolean isSafeDecreasing() {
-        for (int i = 1, size = levels.size(); i < size; i++) {
-            var previousLevel = levels.get(i - 1);
-            var level = levels.get(i);
+    private boolean areLevelsDecreasingGradually(int index) {
+        var previousLevel = levels.get(index - 1);
+        var level = levels.get(index);
 
-            if (previousLevel <= level || !isDifferenceSafe(previousLevel, level)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean isDifferenceSafe(int previousLevel, int level) {
-        var difference = Math.abs(level - previousLevel);
-        return difference >= 1 && difference <= 3;
+        return previousLevel > level && previousLevel - level <= 3;
     }
 }
