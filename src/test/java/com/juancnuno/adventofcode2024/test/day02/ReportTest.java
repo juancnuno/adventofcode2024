@@ -79,4 +79,76 @@ final class ReportTest {
         // Assert
         assertTrue(safe);
     }
+
+    @Test
+    void isSafeWithDampener1() {
+        // Arrange
+        var report = new Report("7 6 4 2 1");
+
+        // Act
+        var safe = report.isSafeWithDampener();
+
+        // Assert
+        assertTrue(safe);
+    }
+
+    @Test
+    void isSafeWithDampener2() {
+        // Arrange
+        var report = new Report("1 2 7 8 9");
+
+        // Act
+        var safe = report.isSafeWithDampener();
+
+        // Assert
+        assertFalse(safe);
+    }
+
+    @Test
+    void isSafeWithDampener3() {
+        // Arrange
+        var report = new Report("9 7 6 2 1");
+
+        // Act
+        var safe = report.isSafeWithDampener();
+
+        // Assert
+        assertFalse(safe);
+    }
+
+    @Test
+    void isSafeWithDampener4() {
+        // Arrange
+        var report = new Report("1 3 2 4 5");
+
+        // Act
+        var safe = report.isSafeWithDampener();
+
+        // Assert
+        assertTrue(safe);
+    }
+
+    @Test
+    void isSafeWithDampener5() {
+        // Arrange
+        var report = new Report("8 6 4 4 1");
+
+        // Act
+        var safe = report.isSafeWithDampener();
+
+        // Assert
+        assertTrue(safe);
+    }
+
+    @Test
+    void isSafeWithDampener6() {
+        // Arrange
+        var report = new Report("1 3 6 7 9");
+
+        // Act
+        var safe = report.isSafeWithDampener();
+
+        // Assert
+        assertTrue(safe);
+    }
 }
