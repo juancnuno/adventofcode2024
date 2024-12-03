@@ -30,10 +30,10 @@ public final class Report {
     }
 
     private Report remove(int index) {
-        var copy = new ArrayList<>(levels);
-        copy.remove(index);
+        var newLevels = new ArrayList<>(levels);
+        newLevels.remove(index);
 
-        return new Report(copy);
+        return new Report(newLevels);
     }
 
     public boolean isSafe() {
