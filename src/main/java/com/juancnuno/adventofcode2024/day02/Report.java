@@ -37,16 +37,8 @@ public final class Report {
     }
 
     public boolean isSafe() {
-        var firstLevel = levels.get(0);
-        var secondLevel = levels.get(1);
-
-        if (firstLevel.equals(secondLevel)) {
-            return false;
-        } else if (firstLevel < secondLevel) {
-            return IntStream.range(1, levels.size()).allMatch(this::areLevelsIncreasingGradually);
-        } else {
-            return IntStream.range(1, levels.size()).allMatch(this::areLevelsDecreasingGradually);
-        }
+        return IntStream.range(1, levels.size()).allMatch(this::areLevelsIncreasingGradually)
+                || IntStream.range(1, levels.size()).allMatch(this::areLevelsDecreasingGradually);
     }
 
     private boolean areLevelsIncreasingGradually(int index) {
