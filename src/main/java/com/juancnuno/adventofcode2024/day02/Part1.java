@@ -9,10 +9,12 @@ public final class Part1 {
     }
 
     public static long getSafeReportCount(Input input) {
-        return input.lines()
-                .map(Report::new)
-                .filter(Report::isSafe)
-                .count();
+        try (var lines = input.lines()) {
+            return lines
+                    .map(Report::new)
+                    .filter(Report::isSafe)
+                    .count();
+        }
     }
 
     public static void main(String[] args) {
