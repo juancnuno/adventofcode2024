@@ -16,9 +16,4 @@ public final class StringInput extends Input {
     public Stream<String> lines() {
         return input.lines();
     }
-
-    @Override
-    public String toString() {
-        return input;
-    }
 }
