@@ -22,4 +22,13 @@ public final class PathInput extends Input {
             throw new UncheckedIOException(exception);
         }
     }
+
+    @Override
+    public String toString() {
+        try {
+            return Files.readString(INPUT);
+        } catch (IOException exception) {
+            throw new UncheckedIOException(exception);
+        }
+    }
 }
