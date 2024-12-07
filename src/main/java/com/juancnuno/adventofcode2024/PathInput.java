@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Stream;
 
 public final class PathInput extends Input {
@@ -15,7 +16,16 @@ public final class PathInput extends Input {
     }
 
     @Override
-    public Stream<String> lines() {
+    public List<String> lineList() {
+        try {
+            return Files.readAllLines(INPUT);
+        } catch (IOException exception) {
+            throw new UncheckedIOException(exception);
+        }
+    }
+
+    @Override
+    public Stream<String> lineStream() {
         try {
             return Files.lines(INPUT);
         } catch (IOException exception) {

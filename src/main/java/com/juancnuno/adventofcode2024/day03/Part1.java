@@ -15,7 +15,7 @@ public final class Part1 {
     public static int getResultSum(Input input) {
         var pattern = Pattern.compile("mul\\((\\d+),(\\d+)\\)");
 
-        try (var lines = input.lines()) {
+        try (var lines = input.lineStream()) {
             return lines
                     .map(pattern::matcher)
                     .flatMap(Matcher::results)

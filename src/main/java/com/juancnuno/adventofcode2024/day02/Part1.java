@@ -9,7 +9,7 @@ public final class Part1 {
     }
 
     public static long getSafeReportCount(Input input) {
-        try (var lines = input.lines()) {
+        try (var lines = input.lineStream()) {
             return lines
                     .map(Report::new)
                     .filter(Report::isSafe)

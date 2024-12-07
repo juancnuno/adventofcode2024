@@ -16,7 +16,7 @@ public final class Part1 {
         var list1 = new ArrayList<Integer>();
         var list2 = new ArrayList<Integer>();
 
-        try (var lines = input.lines()) {
+        try (var lines = input.lineStream()) {
             lines.forEach(line -> {
                 var ids = pattern.split(line);
 
