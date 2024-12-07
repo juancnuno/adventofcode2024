@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import com.juancnuno.adventofcode2024.Input;
 
@@ -63,6 +64,20 @@ public final class WordSearch {
         }
 
         return count;
+    }
+
+    public long getXMasCount() {
+        rows = input.lineList();
+
+        return IntStream.range(1, getRowCount() - 1)
+                .boxed()
+                .flatMap(this::points)
+                .filter(Point::isXMas)
+                .count();
+    }
+
+    private Stream<Point> points(int rowIndex) {
+        return IntStream.range(1, getColumnCount() - 1).mapToObj(columnIndex -> new Point(rowIndex, columnIndex, this));
     }
 
     int getRowCount() {

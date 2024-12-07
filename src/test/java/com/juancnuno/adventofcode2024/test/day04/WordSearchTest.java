@@ -71,4 +71,43 @@ final class WordSearchTest {
         // Assert
         assertEquals(18, count);
     }
+
+    @Test
+    void getXMasCount1() {
+        // Arrange
+        var search = new WordSearch(new StringInput("""
+            M.S
+            .A.
+            M.S
+            """));
+
+        // Act
+        var count = search.getXMasCount();
+
+        // Assert
+        assertEquals(1, count);
+    }
+
+    @Test
+    void getXMasCount2() {
+        // Arrange
+        var search = new WordSearch(new StringInput("""
+            .M.S......
+            ..A..MSMS.
+            .M.S.MAA..
+            ..A.ASMSM.
+            .M.S.M....
+            ..........
+            S.S.S.S.S.
+            .A.A.A.A..
+            M.M.M.M.M.
+            ..........
+            """));
+
+        // Act
+        var count = search.getXMasCount();
+
+        // Assert
+        assertEquals(9, count);
+    }
 }
