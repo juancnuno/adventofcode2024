@@ -1,20 +1,23 @@
 package com.juancnuno.adventofcode2024.day05;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 final class Update {
 
     private final List<Integer> pages;
+    private final Comparator<Integer> comparator;
 
-    Update(String pages) {
-        this(toPages(pages));
+    Update(String pages, Comparator<Integer> comparator) {
+        this(toPages(pages), comparator);
     }
 
-    private Update(List<Integer> pages) {
+    private Update(List<Integer> pages, Comparator<Integer> comparator) {
         this.pages = pages;
+        this.comparator = comparator;
     }
 
     private static List<Integer> toPages(String pages) {
@@ -23,26 +26,19 @@ final class Update {
                 .toList();
     }
 
-    boolean isInRightOrder(Map<Integer, Collection<Integer>> multimap) {
-        var count = pages.size();
+    boolean isInRightOrder() {
+        return pages.equals(sort(pages, comparator));
+    }
 
-        if (count == 1) {
-            return true;
-        }
+    Update sortPages() {
+        return new Update(sort(pages, comparator), comparator);
+    }
 
-        var pagesThatMustBeAfter = multimap.get(pages.getFirst());
+    private static <E> List<E> sort(Collection<E> collection, Comparator<E> comparator) {
+        var list = new ArrayList<>(collection);
+        list.sort(comparator);
 
-        if (pagesThatMustBeAfter == null) {
-            return false;
-        }
-
-        var subList = pages.subList(1, count);
-
-        if (!subList.stream().allMatch(pagesThatMustBeAfter::contains)) {
-            return false;
-        }
-
-        return new Update(subList).isInRightOrder(multimap);
+        return list;
     }
 
     int getMiddlePage() {
