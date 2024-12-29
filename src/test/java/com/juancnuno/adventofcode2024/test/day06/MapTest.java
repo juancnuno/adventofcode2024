@@ -30,4 +30,27 @@ final class MapTest {
         // Assert
         assertEquals(41, count);
     }
+
+    @Test
+    void getLoopCount() {
+        // Arrange
+        var map = new Map(new StringInput("""
+            ....#.....
+            .........#
+            ..........
+            ..#.......
+            .......#..
+            ..........
+            .#..^.....
+            ........#.
+            #.........
+            ......#...
+            """));
+
+        // Act
+        var count = map.getLoopCount();
+
+        // Assert
+        assertEquals(6, count);
+    }
 }

@@ -2,12 +2,13 @@ package com.juancnuno.adventofcode2024.day06;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.function.Predicate;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import com.juancnuno.adventofcode2024.Input;
 
 public final class Map {
-
-    private final Input input;
 
     private final Collection<Position> obstructions;
     private Guard guard;
@@ -19,11 +20,8 @@ public final class Map {
     private int y;
 
     public Map(Input input) {
-        this.input = input;
         obstructions = new HashSet<>();
-    }
 
-    public int getPositionCount() {
         try (var lines = input.lineStream()) {
             lines.forEach(this::handle);
         }
@@ -32,8 +30,15 @@ public final class Map {
             maxX = Math.max(maxX, obstruction.x());
             maxY = Math.max(maxY, obstruction.y());
         });
+    }
 
-        return guard.move();
+    private Map(Collection<Position> obstructions) {
+        this.obstructions = obstructions;
+
+        obstructions.forEach(obstruction -> {
+            maxX = Math.max(maxX, obstruction.x());
+            maxY = Math.max(maxY, obstruction.y());
+        });
     }
 
     private void handle(CharSequence line) {
@@ -55,6 +60,36 @@ public final class Map {
         y++;
     }
 
+    public int getPositionCount() {
+        return (int) guard.move();
+    }
+
+    public int getLoopCount() {
+        return (int) IntStream.rangeClosed(0, maxX)
+                .boxed()
+                .flatMap(this::positions)
+                .filter(Predicate.not(this::hasObstructionAt))
+                .filter(Predicate.not(this::hasGuardAt))
+                .map(this::newMap)
+                .map(map -> map.guard.move())
+                .filter(result -> result.equals(Loop.INSTANCE))
+                .count();
+    }
+
+    private Stream<Position> positions(int x) {
+        return IntStream.rangeClosed(0, maxY).mapToObj(y2 -> new Position(x, y2));
+    }
+
+    private Map newMap(Position obstruction) {
+        var newObstructions = new HashSet<>(obstructions);
+        newObstructions.add(obstruction);
+
+        var map = new Map(newObstructions);
+        map.guard = new Guard(guard.getPosition(), map);
+
+        return map;
+    }
+
     boolean contains(Position position) {
         var positionX = position.x();
         var positionY = position.y();
@@ -64,5 +99,9 @@ public final class Map {
 
     boolean hasObstructionAt(Position positiion) {
         return obstructions.contains(positiion);
+    }
+
+    private boolean hasGuardAt(Position position) {
+        return guard.getPosition().equals(position);
     }
 }
