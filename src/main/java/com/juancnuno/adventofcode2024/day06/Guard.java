@@ -6,6 +6,7 @@ import java.util.HashSet;
 final class Guard {
 
     private Position position;
+    private Position nextPosition;
     private Orientation orientation;
 
     private final Map map;
@@ -23,6 +24,8 @@ final class Guard {
 
     Object move() {
         while (map.contains(position)) {
+            nextPosition = position.next(orientation);
+
             switch (isObstructed()) {
                 case OBSTRUCTED ->
                     turnRight();
@@ -38,7 +41,7 @@ final class Guard {
     }
 
     private IsObstructedResult isObstructed() {
-        if (map.hasObstructionAt(position.next(orientation))) {
+        if (map.hasObstructionAt(nextPosition)) {
             if (obstructions.add(new Obstruction(position, orientation))) {
                 return IsObstructedResult.OBSTRUCTED;
             } else {
@@ -55,7 +58,7 @@ final class Guard {
 
     private void stepForward() {
         visitedPositions.add(position);
-        position = position.next(orientation);
+        position = nextPosition;
     }
 
     Position getPosition() {
