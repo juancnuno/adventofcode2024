@@ -33,25 +33,24 @@ final class Equation {
         objects.addAll(List.of(operator, number));
     }
 
-    boolean canBeTrue() {
-        return insertOperators().stream()
+    boolean canBeTrue(Iterable<LongBinaryOperator> operators) {
+        return insertOperators(operators).stream()
                 .map(Equation::evaluate)
                 .anyMatch(value -> value == testValue);
     }
 
-    private Collection<Equation> insertOperators() {
-        return insertOperators(new ArrayList<>(), new Equation(testValue, (long) objects.getFirst()), objects.subList(1, objects.size()));
+    private Collection<Equation> insertOperators(Iterable<LongBinaryOperator> operators) {
+        return insertOperators(new ArrayList<>(), new Equation(testValue, (long) objects.getFirst()), operators, objects.subList(1, objects.size()));
     }
 
-    private static Collection<Equation> insertOperators(Collection<Equation> equations, Equation equation, List<Object> numbers) {
+    private static Collection<Equation> insertOperators(Collection<Equation> equations, Equation equation, Iterable<LongBinaryOperator> operators, List<Object> numbers) {
         if (numbers.isEmpty()) {
             equations.add(equation);
         } else {
             var number = (long) numbers.getFirst();
             var sublist = numbers.subList(1, numbers.size());
 
-            insertOperators(equations, new Equation(equation, (number1, number2) -> number1 + number2, number), sublist);
-            insertOperators(equations, new Equation(equation, (number1, number2) -> number1 * number2, number), sublist);
+            operators.forEach(operator -> insertOperators(equations, new Equation(equation, operator, number), operators, sublist));
         }
 
         return equations;
@@ -67,6 +66,18 @@ final class Equation {
         }
 
         return (long) objects.getFirst();
+    }
+
+    static long add(long number1, long number2) {
+        return number1 + number2;
+    }
+
+    static long multiply(long number1, long number2) {
+        return number1 * number2;
+    }
+
+    static long concat(long number1, long number2) {
+        return Long.parseLong(Long.toString(number1) + Long.toString(number2));
     }
 
     long getTestValue() {
