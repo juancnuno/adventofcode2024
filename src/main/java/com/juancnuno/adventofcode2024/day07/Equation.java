@@ -6,18 +6,28 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.LongBinaryOperator;
 
+import com.juancnuno.adventofcode2024.Input;
+
 final class Equation {
 
     private final long testValue;
     private final List<Long> numbers;
 
-    Equation(String equation) {
+    private Equation(String equation) {
         var testValueAndNumbers = equation.split(": ");
         testValue = Long.parseLong(testValueAndNumbers[0]);
 
         numbers = Arrays.stream(testValueAndNumbers[1].split(" "))
                 .map(Long::valueOf)
                 .toList();
+    }
+
+    static long getTotalCalibrationResult(Input input, Iterable<LongBinaryOperator> operators) {
+        return input.lineStream()
+                .map(Equation::new)
+                .filter(equation -> equation.canBeTrue(operators))
+                .mapToLong(equation -> equation.testValue)
+                .sum();
     }
 
     static long add(long number1, long number2) {
@@ -32,7 +42,7 @@ final class Equation {
         return Long.parseLong(Long.toString(number1) + Long.toString(number2));
     }
 
-    boolean canBeTrue(Iterable<LongBinaryOperator> operators) {
+    private boolean canBeTrue(Iterable<LongBinaryOperator> operators) {
         var testValues = new ArrayList<Long>();
         evaluate(1, operators, numbers.getFirst(), testValues);
 
@@ -46,9 +56,5 @@ final class Equation {
         } else {
             testValues.add(testValue);
         }
-    }
-
-    long getTestValue() {
-        return testValue;
     }
 }
