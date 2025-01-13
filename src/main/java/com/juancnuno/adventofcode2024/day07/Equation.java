@@ -9,63 +9,15 @@ import java.util.function.LongBinaryOperator;
 final class Equation {
 
     private final long testValue;
-    private final List<Object> objects;
+    private final List<Long> numbers;
 
     Equation(String equation) {
         var testValueAndNumbers = equation.split(": ");
         testValue = Long.parseLong(testValueAndNumbers[0]);
 
-        objects = Arrays.stream(testValueAndNumbers[1].split(" "))
+        numbers = Arrays.stream(testValueAndNumbers[1].split(" "))
                 .map(Long::valueOf)
-                .map(Object.class::cast)
                 .toList();
-    }
-
-    private Equation(long testValue, long number) {
-        this.testValue = testValue;
-        objects = List.of(number);
-    }
-
-    private Equation(Equation equation, LongBinaryOperator operator, long number) {
-        testValue = equation.testValue;
-
-        objects = new ArrayList<>(equation.objects);
-        objects.addAll(List.of(operator, number));
-    }
-
-    boolean canBeTrue(Iterable<LongBinaryOperator> operators) {
-        return insertOperators(operators).stream()
-                .map(Equation::evaluate)
-                .anyMatch(value -> value == testValue);
-    }
-
-    private Collection<Equation> insertOperators(Iterable<LongBinaryOperator> operators) {
-        return insertOperators(new ArrayList<>(), new Equation(testValue, (long) objects.getFirst()), operators, objects.subList(1, objects.size()));
-    }
-
-    private static Collection<Equation> insertOperators(Collection<Equation> equations, Equation equation, Iterable<LongBinaryOperator> operators, List<Object> numbers) {
-        if (numbers.isEmpty()) {
-            equations.add(equation);
-        } else {
-            var number = (long) numbers.getFirst();
-            var sublist = numbers.subList(1, numbers.size());
-
-            operators.forEach(operator -> insertOperators(equations, new Equation(equation, operator, number), operators, sublist));
-        }
-
-        return equations;
-    }
-
-    private long evaluate() {
-        while (objects.size() != 1) {
-            var number1 = (long) objects.removeFirst();
-            var operator = (LongBinaryOperator) objects.removeFirst();
-            var number2 = (long) objects.removeFirst();
-
-            objects.addFirst(operator.applyAsLong(number1, number2));
-        }
-
-        return (long) objects.getFirst();
     }
 
     static long add(long number1, long number2) {
@@ -78,6 +30,22 @@ final class Equation {
 
     static long concat(long number1, long number2) {
         return Long.parseLong(Long.toString(number1) + Long.toString(number2));
+    }
+
+    boolean canBeTrue(Iterable<LongBinaryOperator> operators) {
+        var testValues = new ArrayList<Long>();
+        evaluate(1, operators, numbers.getFirst(), testValues);
+
+        return testValues.contains(testValue);
+    }
+
+    private void evaluate(int i, Iterable<LongBinaryOperator> operators, long testValue, Collection<Long> testValues) {
+        if (i < numbers.size()) {
+            var number = numbers.get(i);
+            operators.forEach(operator -> evaluate(i + 1, operators, operator.applyAsLong(testValue, number), testValues));
+        } else {
+            testValues.add(testValue);
+        }
     }
 
     long getTestValue() {
