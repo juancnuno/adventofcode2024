@@ -4,7 +4,7 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-abstract class Instruction {
+sealed interface Instruction permits Do, Dont, Mul {
 
     static Stream<Instruction> instructions(Object input) {
         return Pattern.compile("do\\(\\)|don't\\(\\)|mul\\((\\d+),(\\d+)\\)").matcher(input.toString()).results().map(Instruction::from);
@@ -20,6 +20,4 @@ abstract class Instruction {
                 new Mul(result);
         };
     }
-
-    abstract void execute(Program program);
 }

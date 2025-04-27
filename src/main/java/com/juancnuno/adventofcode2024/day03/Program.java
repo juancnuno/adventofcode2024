@@ -13,17 +13,21 @@ public final class Program {
     }
 
     public int execute() {
-        Instruction.instructions(input).forEach(instruction -> instruction.execute(this));
+        Instruction.instructions(input).forEach(this::execute);
         return sum;
     }
 
-    void setMulsEnabled(boolean mulsEnabled) {
-        this.mulsEnabled = mulsEnabled;
-    }
-
-    void add(int result) {
-        if (mulsEnabled) {
-            sum += result;
+    private void execute(Instruction instruction) {
+        switch (instruction) {
+            case Do _ ->
+                mulsEnabled = true;
+            case Dont _ ->
+                mulsEnabled = false;
+            case Mul mul -> {
+                if (mulsEnabled) {
+                    sum += mul.getProduct();
+                }
+            }
         }
     }
 }

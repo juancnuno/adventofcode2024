@@ -2,7 +2,7 @@ package com.juancnuno.adventofcode2024.day03;
 
 import java.util.regex.MatchResult;
 
-final class Mul extends Instruction {
+final class Mul implements Instruction {
 
     private final int x;
     private final int y;
@@ -12,8 +12,7 @@ final class Mul extends Instruction {
         y = Integer.parseInt(result.group(2));
     }
 
-    @Override
-    void execute(Program program) {
-        program.add(x * y);
+    int getProduct() {
+        return x * y;
     }
 }
