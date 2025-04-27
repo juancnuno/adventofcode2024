@@ -23,9 +23,9 @@ public final class Program {
                 mulsEnabled = true;
             case Dont _ ->
                 mulsEnabled = false;
-            case Mul mul -> {
+            case Mul(var x, var y) -> {
                 if (mulsEnabled) {
-                    sum += mul.getProduct();
+                    sum += x * y;
                 }
             }
         }
