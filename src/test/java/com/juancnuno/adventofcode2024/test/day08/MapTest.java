@@ -1,0 +1,33 @@
+package com.juancnuno.adventofcode2024.test.day08;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import com.juancnuno.adventofcode2024.day08.Map;
+import com.juancnuno.adventofcode2024.test.StringInput;
+
+final class MapTest {
+
+    @Test
+    void getAntinodeCount() {
+        // Arrange
+        var map = new Map(new StringInput("""
+            ..........
+            ..........
+            ..........
+            ....a.....
+            ..........
+            .....a....
+            ..........
+            ..........
+            ..........
+            ..........
+            """));
+
+        // Act
+        var count = map.getAntinodeCount();
+
+        // Assert
+        assertEquals(2, count);
+    }
+}
